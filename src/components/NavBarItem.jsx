@@ -7,8 +7,7 @@ class NavBarItem extends Component {
             <div>
                 <li className="nav-item">
                     <Link
-                    aria-current="page" 
-                    className="nav-link active" 
+                    className={`nav-link ${this.props.item.active ? "active" : ""}`} 
                     to={this.props.item.href} 
                     onClick={() => this.props.onClick(this.props.item)}>
                         { this.props.item.name }

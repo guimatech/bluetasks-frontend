@@ -7,22 +7,28 @@ class NavBar extends Component {
         super(props);
         this.state = {
             items: [
-                { id: 1, name: 'Listar Tarefas', href: '/' },
-                { id: 2, name: 'Nova Tarefa', href: '/form' },
+                { name: 'Listar Tarefas', href: '/', active: true },
+                { name: 'Nova Tarefa', href: '/form', active: false },
             ]
         }
+
+        this.onClickHandler = this.onClickHandler.bind(this);
     }
 
     onClickHandler(item) {
-        alert(item.name);
+        const items = [...this.state.items];
+        items.forEach(item => item.active = false);
+        item.active = true;
+
+        this.setState({ items })
     }
 
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-lg bg-light">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid">
-                        <a className="navbar-brand" href="#">{APP_NAME}</a>
+                        <a className="navbar-brand" href="/">{APP_NAME}</a>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
@@ -31,7 +37,7 @@ class NavBar extends Component {
                         {this.state.items.map(
                             item => <NavBarItem 
                                         item={item}
-                                        key={item.id}
+                                        key={item.name}
                                         onClick={this.onClickHandler} />)}
                         </ul>
                         </div>
