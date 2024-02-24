@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import NavBar from './components/NavBar';
+import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -11,9 +12,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <NavBar />
-      </div>
+      <BrowserRouter>
+        <div className='App'>
+          <NavBar />
+        </div>
+      </BrowserRouter>
     );
   }
 }
