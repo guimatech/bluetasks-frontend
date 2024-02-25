@@ -8,6 +8,8 @@ class TaskListTable extends Component {
         this.state = {
             tasks: []
         };
+
+        this.onDeleteHandler = this.onDeleteHandler.bind(this);
     }
 
     componentDidMount() {
