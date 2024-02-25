@@ -15,6 +15,11 @@ class TaskService {
     delete(id) {
         this.tasks = this.tasks.filter(task => task.id !== id);
     }
+
+    save(task) {
+        this.tasks.map(t => t.id === task.id ? task : t);
+        console.log(task);
+    }
 }
 
 export default new TaskService();

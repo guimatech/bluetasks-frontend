@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import TaskService from '../api/TaskService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class TaskListTable extends Component {
 
@@ -10,6 +12,7 @@ class TaskListTable extends Component {
         };
 
         this.onDeleteHandler = this.onDeleteHandler.bind(this);
+        this.onStatusChangeHandler = this.onStatusChangeHandler.bind(this);
     }
 
     componentDidMount() {
@@ -21,20 +24,31 @@ class TaskListTable extends Component {
     }
 
     onDeleteHandler(id) {
+        if (!confirm('Deseja excluir a tarefa?')) return;
         TaskService.delete(id);
+        this.listTasks();
+        toast.success('Tarefa excluída com sucesso!', { position: "bottom-left" });
+    }
+
+    onStatusChangeHandler(task) {
+        task.done = !task.done;
+        TaskService.save(task);
         this.listTasks();
     }
 
     render() {
         return (
-            <div>
+            <>
                 <table className="table table-striped">
                     <TableHeader />
-                    <TableBody 
+                    {this.state.tasks.length > 0 ? <TableBody 
                         tasks={this.state.tasks}
-                        onDelete={this.onDeleteHandler} />
+                        onDelete={this.onDeleteHandler} 
+                        onStatusChange={this.onStatusChangeHandler}/> 
+                        : <EmptyTableBody />}
                 </table>
-            </div>
+                <ToastContainer autoClose={1500} />
+            </>
         );
     }
 }
@@ -57,7 +71,10 @@ const TableBody = (props) => {
         <tbody>
             {props.tasks.map(task => 
                 <tr key={task.id}>
-                <td><input type='checkbox' checked={task.done} /></td>
+                <td>
+                    <input type='checkbox'
+                        checked={task.done}
+                        onChange={() => props.onStatusChange(task)} /></td>
                 <td>{task.description}</td>
                 <td>{task.whenToDo}</td>
                 <td>
@@ -70,6 +87,16 @@ const TableBody = (props) => {
                 </td>
             </tr>
             )}
+        </tbody>
+    );
+}
+
+const EmptyTableBody = (props) => {
+    return (
+        <tbody>
+            <tr>
+                <td colSpan='4'>Nenhuma tarefa cadastrada.</td>
+            </tr>
         </tbody>
     );
 }
