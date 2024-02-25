@@ -18,12 +18,19 @@ class TaskListTable extends Component {
         this.setState({ tasks: TaskService.list() });
     }
 
+    onDeleteHandler(id) {
+        TaskService.delete(id);
+        this.listTasks();
+    }
+
     render() {
         return (
             <div>
                 <table className="table table-striped">
                     <TableHeader />
-                    <TableBody tasks={this.state.tasks}/>
+                    <TableBody 
+                        tasks={this.state.tasks}
+                        onDelete={this.onDeleteHandler} />
                 </table>
             </div>
         );
@@ -53,7 +60,11 @@ const TableBody = (props) => {
                 <td>{task.whenToDo}</td>
                 <td>
                     <input type='button' className="btn btn-success" value="Editar" />
-                    <input type='button' className="ms-1 btn btn-danger" value="Excluir" />
+                    <input 
+                        type='button' 
+                        className="ms-1 btn btn-danger" 
+                        value="Excluir"
+                        onClick={() => props.onDelete(task.id)} />
                 </td>
             </tr>
             )}
