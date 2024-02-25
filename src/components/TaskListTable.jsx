@@ -1,12 +1,29 @@
 import { Component } from 'react';
+import TaskService from '../api/TaskService';
 
 class TaskListTable extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            tasks: []
+        };
+    }
+
+    componentDidMount() {
+        this.listTasks();
+    }
+
+    listTasks() {
+        this.setState({ tasks: TaskService.list() });
+    }
+
     render() {
         return (
             <div>
-                <table className="table table-hover">
+                <table className="table table-striped">
                     <TableHeader />
-                    <TableBody />
+                    <TableBody tasks={this.state.tasks}/>
                 </table>
             </div>
         );
@@ -15,29 +32,31 @@ class TaskListTable extends Component {
 
 const TableHeader = () => {
     return (
-        <thead>
+        <thead className='table-dark'>
             <tr>
-                <th>Status</th>
-                <th>Descrição</th>
-                <th>Data</th>
-                <th>Ações</th>
+                <th scope='col'>Status</th>
+                <th scope='col'>Descrição</th>
+                <th scope='col'>Data</th>
+                <th scope='col'>Ações</th>
             </tr>
         </thead>
     );
 }
 
-const TableBody = () => {
+const TableBody = (props) => {
     return (
         <tbody>
-            <tr>
-                <td>Concluído</td>
-                <td>Estudar React</td>
-                <td>2021-10-01</td>
+            {props.tasks.map(task => 
+                <tr key={task.id}>
+                <td><input type='checkbox' checked={task.done} /></td>
+                <td>{task.description}</td>
+                <td>{task.whenToDo}</td>
                 <td>
-                    <button className="btn btn-success">Editar</button>
-                    <button className="btn btn-danger">Excluir</button>
+                    <input type='button' className="btn btn-success" value="Editar" />
+                    <input type='button' className="ms-1 btn btn-danger" value="Excluir" />
                 </td>
             </tr>
+            )}
         </tbody>
     );
 }
