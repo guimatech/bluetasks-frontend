@@ -75,8 +75,8 @@ const TableBody = (props) => {
                     <input type='checkbox'
                         checked={task.done}
                         onChange={() => props.onStatusChange(task)} /></td>
-                <td>{task.description}</td>
-                <td>{task.whenToDo}</td>
+                <td>{ task.done ? <s>{task.description}</s> : task.description }</td>
+                <td>{ task.done ? <s>{task.whenToDo}</s> : task.whenToDo }</td>
                 <td>
                     <input type='button' className="btn btn-success" value="Editar" />
                     <input 
