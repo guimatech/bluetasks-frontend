@@ -3,6 +3,7 @@ import NavBar from './components/NavBar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TaskListTable from './components/TaskListTable';
 import TaskForm from './components/TaskForm';
+import NotFound from './components/NotFound';
 
 class App extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class App extends Component {
             <Routes>
               <Route exact path='/form' element={<TaskForm />} />
               <Route path='/' element={<TaskListTable />} />
+              <Route path='*' element={<NotFound />} />
             </Routes>
           </div>
         </div>
